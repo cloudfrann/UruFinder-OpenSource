@@ -12,7 +12,7 @@ async function setDiscordRPC() {
     await rpc.login({ clientId });
     rpc.setActivity({
       details: '😈 UruFinder',
-      state: '✨ The Beast Minecraft Finder',
+      state: '✨ El Mejor Finder de Minecraft',
       startTimestamp: Date.now(),
       largeImageKey: 'urufinder',
       largeImageText: 'UruFinder v1.2 ✨',
