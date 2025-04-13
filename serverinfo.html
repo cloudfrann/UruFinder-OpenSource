@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UruFinder</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: url('img2/tools.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(50, 50, 50, 0.8);
+            border-radius: 10px;
+        }
+
+        /* Estilo para la flecha de volver dentro de la interfaz */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .back-button img {
+            width: 25px;
+            height: 25px;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 16px;
+            width: 250px;
+        }
+
+        .search-box img {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .results {
+            width: 80%;
+            max-width: 600px;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+        }
+
+        .results h3 {
+            margin: 10px 0;
+            font-weight: normal;
+        }
+
+        .icon-preview {
+            margin-top: 10px;
+            border-radius: 12px;
+        }
+
+        .motd {
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .motd img {
+            max-width: 100%;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Botón de Volver con la imagen dropdown.png -->
+    <div class="back-button" onclick="location.href='tools.html'">
+        <img src="img/dropdown.png" alt="Volver">
+    </div>
+
+    <div class="container">
+        <!-- Caja de Búsqueda -->
+        <div class="search-box">
+            <input type="text" id="serverInput" placeholder="Introduce una IP o dominio">
+            <img src="img/lupa.png" onclick="fetchServerInfo()" />
+        </div>
+
+        <!-- Resultados -->
+        <div class="results" id="results" style="display: none;"></div>
+
+        <!-- MOTD -->
+        <div class="motd" id="motd" style="display: none;">
+            <h3>MOTD:</h3>
+            <img src="" id="motdImage" alt="MOTD Banner">
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/5c4c1b0b57.js" crossorigin="anonymous"></script>
+    <script>
+        async function fetchServerInfo() {
+            const server = document.getElementById('serverInput').value;
+            const resultsBox = document.getElementById('results');
+            const motdBox = document.getElementById('motd');
+            const motdImage = document.getElementById('motdImage');
+
+            if (!server) return;
+
+            // Mostrar que estamos buscando información
+            resultsBox.innerHTML = "Buscando información...";
+            resultsBox.style.display = 'block';
+            motdBox.style.display = 'none';  // Ocultamos la MOTD inicialmente
+
+            try {
+                const url = `https://api.mcsrvstat.us/2/${server}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.online) {
+                    resultsBox.innerHTML = `Servidor no encontrado o fuera de línea: ${server}`;
+                    return;
+                }
+
+                // Obtenemos la MOTD
+                const motd = `http://status.mclive.eu/${data.ip}/${data.ip}/banner.png`;
+
+                // Actualizamos los resultados con la información del servidor
+                resultsBox.innerHTML = `
+                    <h3>IP Numérica: ${data.ip}</h3>
+                    <h3>Versión: ${data.version || 'Desconocida'}</h3>
+                    <h3>Software: ${data.software || 'Desconocido'}</h3>
+                    <h3>Jugadores: ${data.players.online} / ${data.players.max}</h3>
+                    ${data.icon ? `<img class="icon-preview" src="${data.icon}" alt="Server Icon">` : ''}
+                `;
+
+                // Mostramos la MOTD dentro de la interfaz, en la parte inferior
+                motdImage.src = motd;
+                motdBox.style.display = 'block';  // Mostramos la MOTD
+            } catch (error) {
+                resultsBox.innerHTML = "Error al obtener información del servidor.";
+            }
+        }
+    </script>
+</body>
+
+</html>

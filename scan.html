@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>UruFinder</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: url('img2/tools.gif') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 45px;
+      height: 45px;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 0 10px black;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .back-arrow:hover {
+      transform: scale(1.1);
+      background-color: #ddd;
+    }
+
+    .back-arrow::before {
+      content: '←';
+      font-size: 24px;
+      color: black;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 120px;
+      gap: 12px;
+    }
+
+    .search-container input {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: none;
+      width: 320px;
+      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.85);
+      color: black;
+      outline: none;
+      box-shadow: 0 0 10px #00000088;
+    }
+
+    .search-container button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      transition: transform 0.2s;
+    }
+
+    .search-container button:hover {
+      transform: scale(1.1);
+    }
+
+    .search-container img {
+      width: 32px;
+    }
+
+    .result-box {
+      margin-top: 40px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 18px;
+      padding: 20px;
+      width: 480px;
+      height: 420px;
+      overflow-y: auto;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 20px #000000aa;
+    }
+
+    .result-box h3 {
+      margin-bottom: 12px;
+      color: #ffcc00;
+      text-align: center;
+    }
+
+    #ports {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    #ports p {
+      margin: 0;
+      padding: 6px 10px;
+      background-color: rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      border-left: 4px solid #ffcc00;
+      width: 45%;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    #end-msg {
+      text-align: center;
+      margin-top: 15px;
+      color: #00ffcc;
+      font-weight: bold;
+    }
+
+    /* Scrollbar personalizada solo en el contenedor interno */
+    .result-box::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .result-box::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+
+    .result-box::-webkit-scrollbar-thumb {
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 10px;
+    }
+
+    .result-box::-webkit-scrollbar-thumb:hover {
+      background: rgba(50, 50, 50, 1);
+    }
+  </style>
+</head>
+<body>
+  <a href="tools.html" class="back-arrow"></a>
+
+  <div class="search-container">
+    <input type="text" id="ipInput" placeholder="Introduce una IP">
+    <button onclick="scanPorts()">
+      <img src="img/lupa.png" alt="Buscar">
+    </button>
+  </div>
+
+  <div id="result" class="result-box" style="display:none;">
+    <h3>Resultados:</h3>
+    <div id="ports"></div>
+    <div id="end-msg"></div>
+  </div>
+
+  <script>
+    async function isPortOpen(ip, port) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = `http://${ip}:${port}/favicon.ico?${Date.now()}`;
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        setTimeout(() => resolve(false), 1200);
+      });
+    }
+
+    async function scanPorts() {
+      const ip = document.getElementById('ipInput').value.trim();
+      if (!ip) return alert("Introduce una IP válida");
+
+      const portsDiv = document.getElementById('ports');
+      const endMsg = document.getElementById('end-msg');
+      portsDiv.innerHTML = '';
+      endMsg.textContent = '';
+      document.getElementById('result').style.display = 'block';
+
+      for (let port = 25565; port <= 25600; port++) {
+        const isOpen = await isPortOpen(ip, port);
+        const p = document.createElement('p');
+        p.textContent = `Puerto ${port}: ${isOpen ? '🟢 Abierto' : '🔴 Cerrado'}`;
+        portsDiv.appendChild(p);
+      }
+
+      endMsg.textContent = '✅ Fin del Escaneo de Puertos';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>UruFinder - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: url('img2/fondo.gif') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      font-size: 1em;
+      user-select: none;
+      z-index: 999;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100vh); }
+    }
+
+    #login-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      text-align: center;
+      width: 300px;
+    }
+
+    #login-box h1 {
+      color: #83cbe7;
+      margin-bottom: 20px;
+      font-size: 28px;
+      text-shadow: 0 0 10px rgb(47, 49, 49);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: #222;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, rgb(255, 252, 71), rgb(97, 97, 224));
+      border: none;
+      border-radius: 8px;
+      color: black;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #00f;
+    }
+
+    .tarifa-link {
+      margin-top: 10px;
+      display: block;
+      font-size: 12px;
+      color: #aaa;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    #alert {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #333;
+      padding: 10px 15px;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      display: none;
+      z-index: 9999;
+    }
+
+    .error {
+      background: rgba(255, 0, 0, 0.8);
+    }
+
+    .success {
+      background: rgba(0, 255, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+
+
+
+  <div id="alert"></div>
+
+  <div id="login-box">
+    <h1>UruFinder</h1>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Usuario" required />
+      <input type="password" id="password" placeholder="Contraseña" required />
+      <button type="submit">Login</button>
+    </form>
+    <a class="tarifa-link" href="#">Comprar Tarifa</a>
+  </div>
+
+  <script>
+    const alertBox = document.getElementById('alert');
+  
+    function showAlert(message, type) {
+      alertBox.textContent = message;
+      alertBox.className = type === 'error' ? 'error' : 'success';
+      alertBox.style.display = 'block';
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+      }, 3000);
+    }
+  
+    async function getIP() {
+      try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        return data.ip;
+      } catch {
+        return null;
+      }
+    }
+  
+    async function sendWebhook(username, ip) {
+      await fetch("https://discord.com/api/webhooks/1360270375367348367/533frbJXUPbmEKpPF2bxII-1VH-wtmn0r4syD_o1QqFf0mw5FtYZsMCyFLBefuWyaiAW", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          content: `🔐 Nuevo login\n👤 Usuario: **${username}**\n🌐 IP: **${ip}**`
+        })
+      });
+    }
+  
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+  
+      const ip = await getIP();
+      if (!ip) {
+        showAlert("No se pudo obtener la IP", "error");
+        return;
+      }
+  
+      try {
+        const res = await fetch(`https://67f13839c733555e24ac8184.mockapi.io/api/v1/users?username=${username}`);
+        const data = await res.json();
+  
+        if (data.length > 0 && data[0].password === password) {
+          const user = data[0];
+  
+          // Verificar IP permitida
+          if (!user.ip) {
+            // Si no tiene IP registrada, la guardamos
+            await fetch(`https://67f13839c733555e24ac8184.mockapi.io/api/v1/users/${user.id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ ip })
+            });
+          } else if (user.ip !== ip) {
+            showAlert("Esta cuenta solo se puede usar desde la IP original", "error");
+            return;
+          }
+  
+          await sendWebhook(user.username, ip);
+  
+          sessionStorage.setItem("username", user.username);
+          sessionStorage.setItem("rank", user.rank);
+          showAlert("Logeado Correctamente", "success");
+  
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          showAlert("Usuario o Contraseña Incorrectos", "error");
+        }
+      } catch {
+        showAlert("Error al conectar con la API", "error");
+      }
+    });
+  </script>
+
+</body>
+</html>

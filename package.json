@@ -1,0 +1,53 @@
+{
+    "name": "urufinder",
+    "version": "1.0.0",
+    "description": "Un Finder de Minecraft",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "dist": "electron-builder --win"
+    },
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "devDependencies": {
+        "electron": "^28.3.3",
+        "electron-builder": "^26.0.12",
+        "electron-packager": "^17.1.2"
+    },
+    "build": {
+        "appId": "com.urufinder.app",
+        "productName": "UruFinder",
+        "copyright": "Copyright © 2025",
+        "directories": {
+            "output": "dist"
+        },
+        "files": [
+            "**/*"
+        ],
+        "win": {
+            "target": "nsis",
+            "icon": "icon.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": true,
+            "allowElevation": true,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true,
+            "createStartMenuShortcut": true,
+            "shortcutName": "UruFinder"
+        },
+        "publish": [
+            {
+                "provider": "github",
+                "owner": "francoaltez",
+                "repo": "urufinder"
+            }
+        ]
+    },
+    "dependencies": {
+        "discord-rpc": "^4.0.1",
+        "electron-updater": "^6.6.2"
+    }
+}

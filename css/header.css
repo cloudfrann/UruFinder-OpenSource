@@ -1,0 +1,160 @@
+.loggedHeader {
+    background-color: rgb(51, 51, 51);
+    color: #fff;
+    padding: 10px;
+    height: fit-content;
+    margin: 0 auto;
+    z-index: 99;
+    position: relative;
+    width: fit-content;
+    float: right;
+    padding: 10px;
+    border-radius: 15px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background: linear-gradient(45deg, #007BFF, blue);
+    margin-right: 30px;
+    margin-top: 50px;
+    background-position: center;
+    /* background-image: url(../../src/images/fuego.gif); */
+    box-shadow: 1px 1px 4px 1px rgba(33, 31, 31, 0.6);
+}
+
+.headerUserData{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.HeaderHome{
+    filter: invert(1);
+    transition: all 0.3s ease-in-out;
+}
+
+.HeaderHome:hover{
+    filter: invert(0.8);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.headerOptions{
+    padding: 5px;
+    margin-top: 40px;
+    border-radius: 10px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    margin: auto;
+    display: flex;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 217, 255, 0.8);
+
+    mix-blend-mode: hard-light;
+    background-position: center;
+    /*
+    background-image: url(../../src/images/fuego.gif) ;
+    */
+    box-shadow: 1px 1px 4px 1px rgba(33, 31, 31, 0.8);
+}
+
+.rankImage>img {
+    width: 78px;
+    height: 74px;
+}
+
+.rank-data {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba(33, 31, 31, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.rank-data>h3,
+.data__diavlo > h3,
+.data__gen > h3 {
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.rank-data > span,
+.data__diavlo > span,
+.data__gen > span{
+    font-size: 15px;
+}
+
+@media only screen and (max-height: 750px) {
+    .loggedHeader{
+        padding: 0;
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+
+    .loggedHeader > img{
+        height: 10px !important;
+        width: 10px !important;
+    }
+  }
+
+@media (max-height: 763px) {
+    .rankImage>img {
+        width: 68px !important;
+        height: 68px !important;
+    }
+
+    .loggedHeader {
+        margin-left: 6px !important;
+    }
+
+    .HeaderHome {
+        height: 18px;
+        width: 17px;
+    }
+}
+
+
+.headerUserDataMC {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.loggedHeaderMC{
+    background-color: rgb(51, 51, 51);
+    color: #fff;
+    padding: 10px;
+    height: fit-content;
+    margin: 0 auto;
+    z-index: 99;
+    position: absolute;
+    width: 200px;
+    top: -51px;
+    float: right;
+    padding: 10px;
+    right: -33px;
+    border-radius: 0px 0px 0px 15px;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba(1, 45, 243, 0.5);
+    margin-right: 30px;
+    margin-top: 50px;
+
+    mix-blend-mode: screen;
+    background-position: center;
+    background-image: url(../../src/images/fuego.gif) ;
+    
+    box-shadow: 1px 1px 4px 1px rgba(0, 233, 202, 0.6);
+}

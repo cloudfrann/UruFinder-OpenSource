@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UruFinder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('img2/fondo6.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .home-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            font-size: 24px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            border-radius: 50%;
+            text-decoration: none;
+        }
+
+        section {
+            position: absolute;
+            color: #fff;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .toolsContainer {
+            width: 800px;
+            height: auto;
+        }
+
+        .toolsGrid {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 20px;
+            margin: 0px;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            width: fit-content;
+        }
+
+        .tool {
+            padding: 20px;
+            justify-content: center;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            background-color: rgba(33, 31, 31, 0.5);
+            border-radius: 30px;
+            width: 230px !important;
+            height: 330px !important;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .tool > h3 {
+            font-weight: bold;
+            font-family: 'Gotham Black','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .tool > img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            margin-top: 10px;
+        }
+
+        .tool:hover {
+            cursor: pointer;
+            transform: scale(1.02);
+            background-image: url(../../src/images/fuego.gif);
+            box-shadow: 1px 1px 4px 0px rgba(145, 25, 25, 0.6);
+            filter: brightness(1.1) saturate(1.1);
+            background-color: rgb(255 139 139 / 60%);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="home-icon"><i class="fas fa-house"></i></a>
+
+    <section>
+        <div class="toolsContainer">
+            <ul class="toolsGrid">
+                <li class="tool" onclick="location.href='serverinfo.html'">
+                    <h3>Server Info</h3>
+                    <img src="img/server-search.gif" alt="Server Info">
+                </li>
+                <li class="tool" onclick="location.href='scan.html'">
+                    <h3>Scan Ports</h3>
+                    <img src="img/checkport.png" alt="Scan Ports">
+                </li>
+                <li class="tool" onclick="location.href='geoip.html'">
+                    <h3>GeoIP</h3>
+                    <img src="img/ipscan.webp" alt="GeoIP">
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <footer></footer>
+</body>
+
+</html>

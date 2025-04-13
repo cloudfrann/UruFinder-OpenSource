@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UruFinder</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('img2/tools.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .back-button i {
+            color: black;
+            font-size: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 100px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            width: 250px;
+        }
+
+        .search-box button {
+            background: none;
+            border: none;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .search-box img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .results {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            padding: 20px;
+            width: 300px;
+            text-align: left;
+        }
+
+        .result-item {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="back-button" onclick="window.location.href='tools.html'">
+        <i class="fas fa-arrow-left"></i>
+    </div>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="ipInput" placeholder="Introduce una IP">
+            <button onclick="buscarGeoIP()">
+                <img src="img/lupa.png" alt="Buscar">
+            </button>
+        </div>
+
+        <div class="results" id="resultContainer" style="display: none;"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        async function buscarGeoIP() {
+            const ip = document.getElementById('ipInput').value;
+            if (!ip) return;
+
+            const container = document.getElementById('resultContainer');
+            container.style.display = 'block';
+            container.innerHTML = 'Buscando...';
+
+            try {
+                const response = await fetch(`https://ipapi.co/${ip}/json/`);
+                const data = await response.json();
+
+                container.innerHTML = `
+                    <div class="result-item"><strong>IP:</strong> ${data.ip}</div>
+                    <div class="result-item"><strong>País:</strong> ${data.country_name}</div>
+                    <div class="result-item"><strong>Región:</strong> ${data.region}</div>
+                    <div class="result-item"><strong>Ciudad:</strong> ${data.city}</div>
+                    <div class="result-item"><strong>Org:</strong> ${data.org}</div>
+                    <div class="result-item"><strong>Latitud:</strong> ${data.latitude}</div>
+                    <div class="result-item"><strong>Longitud:</strong> ${data.longitude}</div>
+                `;
+            } catch (error) {
+                container.innerHTML = 'Error al obtener la información.';
+            }
+        }
+    </script>
+</body>
+
+</html>
