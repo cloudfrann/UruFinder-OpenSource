@@ -46,4 +46,7 @@ UruFinder es **el primer finder profesional y funcional creado con ayuda de Chat
 ---
 
 By CloudFran, zGarto and ChatGPT
+(Agradeceria una estrella en el Repo <3)
+
+Si usan algun code y si quieren ponganme credits uwu
 
