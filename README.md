@@ -1,6 +1,6 @@
 # 🌐 UruFinder
 
-![UruFinder Banner]([https://i.imgur.com/XvBZlPq.png](https://cdn.discordapp.com/attachments/1369603633552822302/1369721346795241512/descarga_2.png?ex=681ce3e9&is=681b9269&hm=20fd8beeca3f767ea7d4a37dec83fc28cdebd7f44a174bbf7d77a180162e36da&)) <!-- Puedes cambiar este link por el tuyo -->
+![UruFinder Banner](https://cdn.discordapp.com/attachments/1369603633552822302/1369721346795241512/descarga_2.png?ex=681ce3e9&is=681b9269&hm=20fd8beeca3f767ea7d4a37dec83fc28cdebd7f44a174bbf7d77a180162e36da&) <!-- Puedes cambiar este link por el tuyo -->
 
 **UruFinder** es una poderosa herramienta web multifuncional, creada para desarrolladores, administradores de servidores y fanaticos del Minecraft. Combina múltiples funciones en una sola plataforma intuitiva y rápida.
 
