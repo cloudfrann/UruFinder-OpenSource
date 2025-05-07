@@ -45,6 +45,18 @@ UruFinder es **el primer finder profesional y funcional creado con ayuda de Chat
 
 ---
 
+## 🔧 Cosas a Modificar
+
+🔗 Debes cambiar el login.html por una api que uses tu, te recomiendo que tenga autenticación.
+🔗 Luego cambiar la api del Finder/Gen ya que no son funcionales.
+🔗 El login leé el json de la Api asi que el formato debe ser name,password,rank  (Luego la ip se le agrega solo cuando se logea)
+🔗 Deben conectar un bot de discord a su api que tenga la funcion de usar /add user: pass: rank:  para que modifique el JSON y agregue los datos.
+
+---
+
+🔴 No es la ultima versión del Finder asi que no esta actualizada y tampoco tendra actualizaciones 🔴
+
+
 By CloudFran, zGarto and ChatGPT
 (Agradeceria una estrella en el Repo <3)
 
